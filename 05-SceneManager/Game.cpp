@@ -527,11 +527,23 @@ void CGame::SwitchScene()
 
 
 
+void CGame::InitiateSwitchScene(int scene_id)
+{
+	next_scene = scene_id;
+}
 
 
+void CGame::_ParseSection_TEXTURES(string line)
+{
+	vector<string> tokens = split(line);
 
+	if (tokens.size() < 2) return;
 
+	int texID = atoi(tokens[0].c_str());
+	wstring path = ToWSTR(tokens[1]);
 
+	CTextures::GetInstance()->Add(texID, path.c_str());
+}
 
 
 CGame::~CGame()
