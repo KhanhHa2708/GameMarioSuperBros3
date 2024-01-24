@@ -142,6 +142,9 @@
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlayScene.cpp" />
+    <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="SampleKeyEventHandler.cpp" />
+    <ClCompile Include="Scence.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -158,6 +161,9 @@
     <ClInclude Include="Mario.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlayScene.h" />
+    <ClInclude Include="Portal.h" />
+    <ClInclude Include="SampleKeyEventHandler.h" />
+    <ClInclude Include="Scence.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
