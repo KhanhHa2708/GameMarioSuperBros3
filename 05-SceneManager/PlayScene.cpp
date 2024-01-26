@@ -13,6 +13,7 @@
 #include "ParaGoomba.h"
 #include "SampleKeyEventHandler.h"
 #include "GreenKoopa.h"
+#include "RedKoopa.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
@@ -149,7 +150,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CGreenKoopa(x, y, level);
 		break;
 	}
-									
+	case OBJECT_TYPE_RED_KOOPA: {
+		int level = (int)atoi(tokens[3].c_str());
+		obj = new CRedKoopa(x, y, level);
+		break;
+	}
+								
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
 	case OBJECT_TYPE_QUESTION_BLOCK: {
 		obj = new CQuestionBlock(x, y);

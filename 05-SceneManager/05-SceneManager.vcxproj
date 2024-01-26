@@ -155,6 +155,7 @@
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="GreenKoopa.cpp" />
     <ClCompile Include="ParaGoomba.cpp" />
+    <ClCompile Include="RedKoopa.cpp" />
     <ClCompile Include="SuperItem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="GreenKoopa.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ParaGoomba.h" />
+    <ClInclude Include="RedKoopa.h" />
     <ClInclude Include="SuperItem.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Map.h" />

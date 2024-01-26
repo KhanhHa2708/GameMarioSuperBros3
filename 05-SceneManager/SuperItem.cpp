@@ -69,7 +69,7 @@ void CSuperItem::Render() {
 		else if (type == 2)
 			animations->Get(ID_ANI_MUSHROOM_GREEN)->Render(x, y);
 	}
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CSuperItem::GetBoundingBox(float& l, float& t, float& r, float& b)

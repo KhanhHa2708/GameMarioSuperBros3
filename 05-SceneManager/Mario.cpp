@@ -13,6 +13,7 @@
 #include "QuestionBlock.h"
 #include "ParaGoomba.h"
 #include "GreenKoopa.h"
+#include "RedKoopa.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	isOnPlatform = false;
@@ -62,6 +63,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithParaRedGoomba(e);
 	else if (dynamic_cast<CGreenKoopa*>(e->obj))
 		OnCollisionWithGreenKoopa(e);
+	else if (dynamic_cast<CRedKoopa*>(e->obj))
+		OnCollisionWithRedKoopa(e);
 
 }
 
@@ -124,6 +127,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	}
 }
 
+
 void CMario::OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e)
 {
 	CGreenKoopa* greenKoopa = dynamic_cast<CGreenKoopa*>(e->obj);
@@ -146,6 +150,43 @@ void CMario::OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e)
 		if (untouchable == 0)
 		{
 			if (greenKoopa->GetState() != GREEN_KOOPA_STATE_DIE)
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
+	}
+}
+void CMario::OnCollisionWithRedKoopa(LPCOLLISIONEVENT e)
+{
+	CRedKoopa* redKoopa = dynamic_cast<CRedKoopa*>(e->obj);
+
+	// jump on top >> kill Goomba and deflect a bit 
+	if (e->ny < 0)
+	{
+		if (redKoopa->GetLevel() == LEVEL_RED_KOOPA_WING) {
+		}
+		if (redKoopa->GetState() != RED_KOOPA_STATE_DIE)
+		{
+			if (redKoopa->GetLevel() == LEVEL_RED_KOOPA)	redKoopa->SetState(RED_KOOPA_STATE_DIE);
+			else redKoopa->SetLevel(LEVEL_RED_KOOPA);
+
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+	}
+	else // hit by Goomba
+	{
+		if (untouchable == 0)
+		{
+			if (redKoopa->GetState() != RED_KOOPA_STATE_DIE)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
