@@ -1,4 +1,4 @@
-﻿#include "VenusRedPiranha.h"
+﻿﻿#include "VenusRedPiranha.h"
 
 #include "Mario.h"
 #include "BulletPlant.h"
@@ -95,7 +95,7 @@ void VenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			SetState(VENUS_STATE_GOING_UP);
 		}*/
 
-		SetState(VENUS_STATE_GOING_UP);
+		//SetState(VENUS_STATE_GOING_UP);
 	}
 
 	for (LPGAMEOBJECT fireball : listFireball)
@@ -114,10 +114,10 @@ void VenusFireTrap::Render()
 	{
 		RenderToType(FIRE, aniId);
 	}
-	else if (type == GREEN)
+	/*else if (type == GREEN)
 	{
 		RenderToType(GREEN, aniId);
-	}
+	}*/
 
 
 

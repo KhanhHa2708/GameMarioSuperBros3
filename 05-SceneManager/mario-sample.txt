@@ -1,5 +1,5 @@
 [SETTINGS]
-start	1
+start	2
 width	320
 height	240
 
@@ -20,3 +20,4 @@ height	240
 30	textures\map1-1.png
 40	textures\another_enemies.png
 50	textures\itemsobjects.png
+60	textures\fire_ball.png

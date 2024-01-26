@@ -13,6 +13,7 @@ greenkoopa.txt
 redkoopa.txt
 piranhaplant.txt
 pswitch.txt
+venusfirepiranha.txt
 #
 [MAP]
 map1-1.txt
@@ -25,7 +26,7 @@ map1-1.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	1900	300
+0	50	300
 
 # Item
 # x y type	coinSetting 
@@ -82,19 +83,18 @@ map1-1.txt
 5	2240	352	16	16	2	-3600	-3600	-3600
 5	2240	288	16	16	2	-3600	-3600	-3600
 
-#Portal	
-50	300	336	316	160	2
+
 
 # Goomba
-2	224	346	0
-2	528	346	0
-2	833	300	0
-2	880	300	0
+#2	224	346	0
+#2	528	346	0
+##2	833	300	0
+#2	880	300	0
 #2	800	300	0
 
 
 #Red Para Goomba
-9	944	300	1
+#9	944	300	1
 
 
 # Koopas
@@ -104,7 +104,7 @@ map1-1.txt
 10	1424	200	1
 
 #Red Koopa
-3	576	250	0
+10	576	250	0
 
 
 #brick
@@ -133,3 +133,11 @@ map1-1.txt
 
 #piranha plant
 11	1783	350
+
+#venus fire piranha
+15	350	340	1
+15	1700	350	2
+
+
+#Portal	
+52	100	350	350	300	2

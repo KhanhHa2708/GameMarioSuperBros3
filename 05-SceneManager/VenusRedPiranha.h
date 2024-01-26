@@ -1,4 +1,4 @@
-﻿#pragma once
+﻿﻿#pragma once
 #pragma once
 
 #pragma once
@@ -8,14 +8,11 @@
 
 #define VENUS_WALKING_SPEED 0.06f;
 
-#define VENUS_BBOX_WIDTH 16*3
-#define VENUS_BBOX_HEIGHT 32*3
+#define VENUS_BBOX_WIDTH 16
+#define VENUS_BBOX_HEIGHT 32
 
-#define GREEN_BBOX_HEIGHT 27*3
+#define GREEN_BBOX_HEIGHT 27
 //#define VENUS_BBOX_HEIGHT 27*3
-
-
-#define GOOMBA_BBOX_HEIGHT_DIE 9
 
 #define VENUS_STATE_GOING_UP			 100
 #define VENUS_STATE_GOING_DOWN			 200
@@ -66,8 +63,8 @@ protected:
 	float r_safe;
 	float b_safe;
 
-	int type = GREEN;
-	//int type = FIRE;
+	//int type = GREEN;
+	int type = FIRE;
 
 	vector<LPGAMEOBJECT> listFireball;
 
