@@ -11,6 +11,7 @@ koopas.txt
 paragoomba.txt
 greenkoopa.txt
 redkoopa.txt
+piranhaplant.txt
 #
 [MAP]
 map1-1.txt
@@ -23,7 +24,7 @@ map1-1.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	100	300
+0	1260	300
 
 # Item
 # x y type	coinSetting 
@@ -37,8 +38,8 @@ map1-1.txt
 7	176	336
 
 # Color block
-#6	224	352	16	48	3
-#6	256	320	16	80	3
+6	224	352	16	48	3
+6	256	320	16	80	3
 6	384	352	16	48	5
 6	448	320	16	80	4
 6	496	368	16	32	6
@@ -56,7 +57,10 @@ map1-1.txt
 #	x	y	w	h	l	begins	middles	ends
 # test
 
+
+
 5	-605	380	16	16	38	-3600	-3600	-3600
+
 5	0	400	16	16	38	-3600	-3600	-3600
 5	608	384	16	32	29	-3600	-3600	-3600
 5	1136	400	16	16	22	-3600	-3600	-3600
@@ -81,19 +85,25 @@ map1-1.txt
 50	300	336	316	160	2
 
 # Goomba
-#2	300	346	0
-#2	550	346	0
-#2	650	346	1
-#2	700	300	0
+2	224	346	0
+2	528	346	0
+2	833	300	0
+2	880	300	0
 #2	800	300	0
 
 
 #Red Para Goomba
-#9	420	346	1
+9	944	300	1
 
 
-# Koopas
-3	300	300	0
+# Koopass
+10	1472	300	0
+10	1328	200	1
+10	1376	200	1
+10	1424	200	1
 
 #Red Koopa
-10	400	300	0
+3	576	250	0
+
+#piranha plant
+11	220	300

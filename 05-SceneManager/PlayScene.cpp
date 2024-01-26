@@ -14,6 +14,7 @@
 #include "SampleKeyEventHandler.h"
 #include "GreenKoopa.h"
 #include "RedKoopa.h"
+#include "PiranhaPlant.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
@@ -187,7 +188,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			cell_width, cell_height, length);
 		break;
 	}
-
+	case OBJECT_TYPE_PIRANHA_PLANT: {
+	
+		obj = new CPiranhaPlant(x, y);
+		break;
+	}
 	case OBJECT_TYPE_PLATFORM:
 	{
 

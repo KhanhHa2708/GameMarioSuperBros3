@@ -19,3 +19,4 @@ height	240
 20	textures\misc.png
 30	textures\map1-1.png
 40	textures\another_enemies.png
+50	textures\itemsobjects.png

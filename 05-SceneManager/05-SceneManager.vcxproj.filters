@@ -108,6 +108,9 @@
     <ClCompile Include="RedKoopa.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="PiranhaPlant.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -201,6 +204,9 @@
       <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="RedKoopa.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="PiranhaPlant.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
