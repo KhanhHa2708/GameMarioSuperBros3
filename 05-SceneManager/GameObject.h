@@ -35,7 +35,8 @@ public:
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
-
+	float GetX() { return x; };
+	float GetY() { return y; };
 	int GetState() { return this->state; }
 	virtual void Delete() { isDeleted = true; }
 	bool IsDeleted() { return isDeleted; }
@@ -63,6 +64,7 @@ public:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e) {};
 
 	// Is this object blocking other object? If YES, collision framework will automatically push the other object
+	virtual int IsBlocking() { return 1; }
 	virtual void DirectBlocking(int& l, int& t, int& r, int& b) { l = 1; t = 1; r = 1; b = 1; }
 
 	~CGameObject();

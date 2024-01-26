@@ -114,6 +114,12 @@
     <ClCompile Include="PSwitch.cpp">
       <Filter>Source Files\GameObjects\Item</Filter>
     </ClCompile>
+    <ClCompile Include="BulletPlant.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VenusRedPiranha.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -214,6 +220,15 @@
     </ClInclude>
     <ClInclude Include="PSwitch.h">
       <Filter>GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickP.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="VenusRedPiranha.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletPlant.h">
+      <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

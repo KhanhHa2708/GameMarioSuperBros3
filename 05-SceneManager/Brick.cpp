@@ -30,3 +30,19 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
+
+
+void CBrick::SetState(int state)
+{
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case STATE_UPDATE:
+
+		vx = 0;
+		vy = 0;
+		nx = 0;
+
+		break;
+	}
+}

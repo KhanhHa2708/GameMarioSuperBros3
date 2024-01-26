@@ -194,7 +194,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_PIRANHA_PLANT: {
 	
-		obj = new CPiranhaPlant(x, y);
+		obj = new PiranhaPlant(x, y);
 		break;
 	}
 	case OBJECT_TYPE_PLATFORM:

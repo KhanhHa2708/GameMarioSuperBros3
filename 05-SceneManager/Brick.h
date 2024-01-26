@@ -16,5 +16,6 @@ public:
 	CBrick(float x, float y) : CGameObject(x, y) {}
 	void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-	void GetBoundingBox(float& l, float& t, float& r, float& b);
+	void GetBoundingBox(float& l, float& t, float& r, float& b); 
+	virtual void SetState(int state);
 };

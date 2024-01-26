@@ -1,69 +1,102 @@
-#include "PiranhaPlant.h" 
+﻿﻿#include "PiranhaPlant.h"
 
-
-
-void CPiranhaPlant::Render()
+PiranhaPlant::PiranhaPlant(float x, float y) :CGameObject(x, y)
 {
-	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(ID_ANI_PIRANHA_PLANT)->Render(x, y);
-	if (this->GetState() == PIRANHA_STATE_HIDE) {
-		return;
-	}
+
+	this->ax = 0;
+	die_start = -1;
+	SetState(VENUS_STATE_GOING_UP);
+
 	
-	RenderBoundingBox();
+
+	min_y = y - VENUS_BBOX_HEIGHT + 15;
+	max_y = y;
+
+
+
+	l_safe = x - 90;
+	t_safe = 0;
+	r_safe = x + 90;
+	b_safe = y + 90;
+}
+
+void PiranhaPlant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	left = x - VENUS_BBOX_WIDTH / 2;
+	top = y - VENUS_BBOX_HEIGHT / 2;
+	right = x + VENUS_BBOX_WIDTH / 2;
+	bottom = y + VENUS_BBOX_HEIGHT / 2;
 }
 
 
 
-void CPiranhaPlant::GetBoundingBox(float& l, float& t, float& r, float& b)
+
+void PiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	
-	
-	l = x - PIRANHA_BOX_WIDTH / 2;
-	t = y - PIRANHA_BOX_HEIGHT / 2;
-	r = l + PIRANHA_BOX_WIDTH;
-	b = t + PIRANHA_BOX_HEIGHT;
-}
+	y += vy * dt;
 
-
-void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-{
-	//hide not update 
-	if (this->GetState() == PIRANHA_STATE_HIDE) {
-		return;
-	}
-
-	CGameObject::Update(dt, coObjects);
-
-	x += PIRANHA_BOX_WIDTH;
-	y += PIRANHA_BOX_HEIGHT;
-
-	//Navigator top to bottom
-	if (vy < 0 && y < this->min_y) {
-		y = min_y;
-		vy = -vy;
-	}
-	//[condition hidden coin]
-	if (y >= max_y)
+	if (y < min_y && state == VENUS_STATE_GOING_UP) //trừ cống/2 nữa
 	{
-		this->SetState(PIRANHA_STATE_MOVING);
+		vy = 0;
 	}
 
+	if (y > max_y && state == VENUS_STATE_GOING_DOWN)
+	{
+		vy = 0;
+	}
+
+	if (state == VENUS_STATE_GOING_UP && GetTickCount64() - time_interval > 2000)
+	{
+		SetState(VENUS_STATE_GOING_DOWN);
+	}
+
+	else if (state == VENUS_STATE_GOING_DOWN && GetTickCount64() - time_interval > 5000)
+	{
+
+		float l, t, r, b;
+		
+		SetState(VENUS_STATE_GOING_UP);
+	/*	if (this->CheckOverLap(l_safe, t_safe, r_safe, b_safe, l, t, r, b) == false)
+		{
+			SetState(VENUS_STATE_GOING_UP);
+		}*/
+
+	}
 
 }
 
 
-void CPiranhaPlant::SetState(int state)
+void PiranhaPlant::Render()
+{
+
+
+
+	CAnimations::GetInstance()->Get(ID_ANI_PIRANHA_PLANT)->Render(x, y);
+
+	//CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+	//RenderBoundingBox();
+
+}
+
+
+void PiranhaPlant::SetState(int state)
 {
 	CGameObject::SetState(state);
-	vx = 0;
 	switch (state)
 	{
-	case PIRANHA_STATE_MOVING:
-		vy = -PIRANHA_SPEED;//bottom -> top
+
+	case VENUS_STATE_GOING_UP:
+		vy = -VENUS_WALKING_SPEED;
+		time_interval = GetTickCount64();
 		break;
-	case PIRANHA_STATE_HIDE:
+
+	case VENUS_STATE_SEEING:
 		vy = 0;
 		break;
+	case VENUS_STATE_GOING_DOWN:
+		vy = VENUS_WALKING_SPEED;
+		break;
 	}
+
+
 }

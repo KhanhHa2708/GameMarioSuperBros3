@@ -263,6 +263,7 @@ void CMario::OnCollisionWithPSwitch(LPCOLLISIONEVENT e)
 	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 	if (e->obj->GetState() == STATE_P_SWITCH_VISIBLE) {
 		e->obj->Delete();
+	//	brick->SetState(STATE_UPDATE)
 	//	brick->Delete();
 	}
 	
