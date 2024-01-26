@@ -16,6 +16,7 @@
 #include "RedKoopa.h"
 #include "PSwitch.h"
 #include "Brick.h"
+#include "VenusRedPiranha.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	isOnPlatform = false;
@@ -69,6 +70,10 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithRedKoopa(e);
 	else if (dynamic_cast<CPSwitch*>(e->obj))
 		OnCollisionWithPSwitch(e);
+	else if (dynamic_cast<CBrick*>(e->obj))
+		OnCollisionWithPBrick(e);
+	else if (dynamic_cast<VenusFireTrap*>(e->obj))
+		OnCollisionWithFirePiranha(e);
 
 }
 
@@ -88,6 +93,38 @@ void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e) {
 			qb->SpawnItem(nx, level);
 			if (qb->getItem()->GetItemType() == ItemType::Coin) {
 				coin++;
+			}
+		}
+}
+
+void CMario::OnCollisionWithFirePiranha(LPCOLLISIONEVENT e) {
+	
+	VenusFireTrap* piranha = dynamic_cast<VenusFireTrap*>(e->obj);
+
+		// jump on top >> kill Goomba and deflect a bit 
+		if (e->ny < 0)
+		{
+			if (piranha->GetState() != VENUS_STATE_DIE)
+			{
+				piranha->SetState(VENUS_STATE_DIE);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				e->obj->Delete();
+			}
+		}
+		else if (e->nx != 0)
+		{
+			if (untouchable == 0)
+			{
+				if (piranha->GetState() != VENUS_STATE_DIE)
+				{
+					if (level > MARIO_LEVEL_SMALL)
+					{
+						level = MARIO_LEVEL_SMALL;
+						StartUntouchable();
+					}
+					else
+						SetState(MARIO_STATE_DIE);
+				}
 			}
 		}
 }
@@ -259,13 +296,22 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 
 	}
 }
+void CMario::OnCollisionWithPBrick(LPCOLLISIONEVENT e)
+{
+	//CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+	e->obj->Delete();
+	CCoin* superItem = dynamic_cast<CCoin*>(e->obj);
+	e->obj->SetState(STATE_ITEM_VISIBLE);
+
+
+}
 void CMario::OnCollisionWithPSwitch(LPCOLLISIONEVENT e)
 {
-	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+	CPSwitch* brick = dynamic_cast<CPSwitch*>(e->obj);
 	if (e->obj->GetState() == STATE_P_SWITCH_VISIBLE) {
 		e->obj->Delete();
-	//	brick->SetState(STATE_UPDATE)
-	//	brick->Delete();
+		//brick->SetState(STATE_UPDATE);
+		//brick->Delete();
 	}
 	
 	

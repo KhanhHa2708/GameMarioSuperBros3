@@ -1,4 +1,4 @@
-﻿﻿#pragma once
+﻿﻿﻿#pragma once
 #pragma once
 
 #pragma once
@@ -21,6 +21,7 @@
 #define VENUS_STATE_SEEING				 500
 #define VENUS_STATE_STANDING_STILL		 600
 #define VENUS_STATE_SLEEPING	700
+#define VENUS_STATE_DIE 800
 
 
 #define VENUS_ANI_SCORPION_DOWN_LEFT 725

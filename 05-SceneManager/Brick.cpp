@@ -24,7 +24,10 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isDeleted = true;
 		return;
 	}
-
+	else if (state == STATE_HIDE)
+	{
+		return;
+	}
 	
 
 	CGameObject::Update(dt, coObjects);
@@ -41,8 +44,10 @@ void CBrick::SetState(int state)
 
 		vx = 0;
 		vy = 0;
-		nx = 0;
-
+		break;
+	case STATE_HIDE:
+		this->Delete();
+	
 		break;
 	}
 }

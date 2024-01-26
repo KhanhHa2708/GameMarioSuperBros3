@@ -10,6 +10,7 @@
 #define BRICK_BBOX_HEIGHT 16
 
 #define STATE_UPDATE 11
+#define STATE_HIDE 12
 
 class CBrick : public CGameObject {
 public:

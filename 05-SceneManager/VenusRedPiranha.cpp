@@ -1,4 +1,4 @@
-﻿﻿#include "VenusRedPiranha.h"
+﻿﻿﻿#include "VenusRedPiranha.h"
 
 #include "Mario.h"
 #include "BulletPlant.h"
@@ -64,7 +64,7 @@ void VenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		venus_bullet = new PlantBullet(x, y - 35, player);
 		venus_bullet->SetPosition(x, y - 35);
 
-		if (player->GetX() < x)
+		/*if (player->GetX() < x)
 		{
 			if (player->GetY() < y)
 				venus_bullet->SetState(PLANT_BULLET_STATE_TOP_LEFT);
@@ -78,7 +78,7 @@ void VenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				venus_bullet->SetState(PLANT_BULLET_STATE_TOP_RIGHT);
 			else if (player->GetY() >= y)
 				venus_bullet->SetState(PLANT_BULLET_STATE_BOT_RIGHT);
-		}
+		}*/
 
 		listFireball.push_back(venus_bullet);
 
@@ -133,42 +133,45 @@ void VenusFireTrap::Render()
 
 void VenusFireTrap::RenderToType(int type, int& aniId)
 {
-	if (player->GetX() <= x)
-	{
-		if (state == VENUS_STATE_SEEING)
-		{
-			aniId = VENUS_ANI_SHOOTING_DOWN_LEFT;
-			if (player->GetY() <= y)
-				aniId = VENUS_ANI_SHOOTING_UP_LEFT;
+	//if (player->GetX() <= x)
+	//{
+	//	if (state == VENUS_STATE_SEEING)
+	//	{
+	//		aniId = VENUS_ANI_SHOOTING_DOWN_LEFT;
+	//		if (player->GetY() <= y)
+	//			aniId = VENUS_ANI_SHOOTING_UP_LEFT;
 
-		}
-		else if (state == VENUS_STATE_GOING_UP || state == VENUS_STATE_GOING_DOWN)
-		{
+	//	}
+	//	else if (state == VENUS_STATE_GOING_UP || state == VENUS_STATE_GOING_DOWN)
+	//	{
 
-			aniId = VENUS_ANI_SCORPION_DOWN_LEFT;
-			if (player->GetY() <= y)
-				aniId = VENUS_ANI_SCORPION_UP_LEFT;
-		}
+	//		aniId = VENUS_ANI_SCORPION_DOWN_LEFT;
+	//		if (player->GetY() <= y)
+	//			aniId = VENUS_ANI_SCORPION_UP_LEFT;
+	//	}
 
-	}
-	else if (player->GetX() > x)
-	{
-		if (state == VENUS_STATE_SEEING)
-		{
-			aniId = VENUS_ANI_SHOOTING_DOWN_RIGHT;
-			if (player->GetY() <= y)
-				aniId = VENUS_ANI_SHOOTING_UP_RIGHT;
+	//}
+	//else if (player->GetX() > x)
+	//{
+	//	if (state == VENUS_STATE_SEEING)
+	//	{
+	//		aniId = VENUS_ANI_SHOOTING_DOWN_RIGHT;
+	//		if (player->GetY() <= y)
+	//			aniId = VENUS_ANI_SHOOTING_UP_RIGHT;
 
-		}
-		else if (state == VENUS_STATE_GOING_UP || state == VENUS_STATE_GOING_DOWN)
-		{
+	//	}
+	//	else if (state == VENUS_STATE_GOING_UP || state == VENUS_STATE_GOING_DOWN)
+	//	{
 
-			aniId = VENUS_ANI_SCORPION_DOWN_RIGHT;
-			if (player->GetY() <= y)
-				aniId = VENUS_ANI_SCORPION_UP_RIGHT;
-		}
-	}
-
+	//		aniId = VENUS_ANI_SCORPION_DOWN_RIGHT;
+	//		if (player->GetY() <= y)
+	//			aniId = VENUS_ANI_SCORPION_UP_RIGHT;
+	//	}
+	//}
+	//else if (state == VENUS_STATE_DIE)
+	//{
+	//	return;
+	//}
 
 	if (type == GREEN)
 		aniId += 100;

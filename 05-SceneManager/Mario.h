@@ -118,6 +118,7 @@ class CMario : public CGameObject
 	void OnCollisionWithParaRedGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithRedKoopa(LPCOLLISIONEVENT e);
+	void OnCollisionWithFirePiranha(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e);
 	// Item
@@ -125,7 +126,7 @@ class CMario : public CGameObject
 	void OnCollisionWithMushroom(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPSwitch(LPCOLLISIONEVENT e);
-
+	void OnCollisionWithPBrick(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 
