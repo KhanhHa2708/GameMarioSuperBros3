@@ -9,6 +9,7 @@ cloud.txt
 item.txt
 koopas.txt
 paragoomba.txt
+greenkoopa.txt
 #
 [MAP]
 map1-1.txt
@@ -25,14 +26,14 @@ map1-1.txt
 
 # Item
 # x y type	coinSetting 
-#8	160	336	1	1
-#8	176	336	0
+8	160	336	1	1
+8	176	336	0
 
-#8	176	320	1	0
+8	176	320	1	0
 
 # ? Brick
-#7	160	336
-#7	176	336
+7	160	336
+7	176	336
 
 # Color block
 #6	224	352	16	48	3
@@ -91,4 +92,4 @@ map1-1.txt
 
 
 # Koopas
-3	300	360
+3	300	360	1
