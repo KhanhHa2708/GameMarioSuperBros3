@@ -231,4 +231,7 @@
       <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="scene01.txt" />
+  </ItemGroup>
 </Project>

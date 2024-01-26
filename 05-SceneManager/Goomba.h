@@ -30,33 +30,37 @@
 #define GOOMBA_JUMP_DURATION 2000
 #define GOOMBA_FLY_DURATION 1000
 
-
+#define GOOMBA_DEFAULT_ZONE_WALKING 80
 
 class CGoomba : public CGameObject
 {
-protected:
-	float ax;
-	float ay;
+//protected:
+float ax;				
+	float ay; 
 	int level;
 	int step;
 
 	ULONGLONG die_start;
 	ULONGLONG timeEllapsed;
 
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
+	virtual void SetPosition(float x, float y);
 
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
-
-public:
-		int GetLevel() { return level; }
+	int min_x = -1; //move min x
+	int max_x = -1;//move max x default
+public: 	
+	int GetLevel() { return level; }
 	void SetLevel(int l);
+	
 	CGoomba(float x, float y, int level = 0);
 	virtual void SetState(int state);
 	void CalcGoombaMove();
+	
 };

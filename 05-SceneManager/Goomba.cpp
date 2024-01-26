@@ -12,6 +12,8 @@ CGoomba::CGoomba(float x, float y, int l) :CGameObject(x, y)
 	die_start = -1;
 	nx = -1;
 	SetState(GOOMBA_STATE_WALKING);
+	min_x = x - GOOMBA_DEFAULT_ZONE_WALKING;
+	max_x = x + GOOMBA_DEFAULT_ZONE_WALKING;
 }
 
 
@@ -62,19 +64,35 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		if (e->ny < 0) vy = -GOOMBA_JUMPING_SPEED;
 	}
+	
 }
 
 void CGoomba::SetLevel(int l)
 {
 	level = l;
 }
-
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
-	vx += ax * dt;
+	//vx += ax * dt;
+	
+	if (vx <0 && x<min_x) {//dao chieu
+	//	x = min_x;
+	//	vx += ax * dt;
 
-	if ((state == GOOMBA_STATE_DIE) && (GetTickCount64() - die_start > GOOMBA_DIE_TIMEOUT))
+		vx = -vx;
+	}
+	else if(vx > 0 && x>max_x)
+	{
+		vx = -vx;
+	}
+
+	//if (x > x + GOOMBA_DEFAULT_ZONE_WALKING) {
+	//	x = max_x;
+	//	vx += ax * dt;
+	//}
+
+if ((state == GOOMBA_STATE_DIE) && (GetTickCount64() - die_start > GOOMBA_DIE_TIMEOUT))
 	{
 		isDeleted = true;
 		return;
@@ -116,7 +134,7 @@ void CGoomba::SetState(int state)
 		vx = 0;
 		vy = 0;
 		nx = 0;
-		ay = 0;
+		//ay = 0;
 		break;
 	case GOOMBA_STATE_WALKING:
 		vx = nx * GOOMBA_WALKING_SPEED;
@@ -169,5 +187,14 @@ void CGoomba::CalcGoombaMove() {
 		}
 		break;
 	}
+	}
+}
+void CGoomba::SetPosition(float x, float y) {
+	this->x = x;
+	this->y = y;
+	if (min_x == -1 && max_x == -1)// not init zone walking
+	{
+		min_x = x - GOOMBA_DEFAULT_ZONE_WALKING;
+		max_x = x + GOOMBA_DEFAULT_ZONE_WALKING;
 	}
 }
