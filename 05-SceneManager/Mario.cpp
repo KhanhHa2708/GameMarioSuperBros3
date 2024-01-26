@@ -14,6 +14,8 @@
 #include "ParaGoomba.h"
 #include "GreenKoopa.h"
 #include "RedKoopa.h"
+#include "PSwitch.h"
+#include "Brick.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	isOnPlatform = false;
@@ -65,6 +67,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGreenKoopa(e);
 	else if (dynamic_cast<CRedKoopa*>(e->obj))
 		OnCollisionWithRedKoopa(e);
+	else if (dynamic_cast<CPSwitch*>(e->obj))
+		OnCollisionWithPSwitch(e);
 
 }
 
@@ -73,6 +77,8 @@ void CMario::OnCollisionWithItem(LPCOLLISIONEVENT e) {
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CSuperItem*>(e->obj))
 		OnCollisionWithMushroom(e);
+	else if (dynamic_cast<CPSwitch*>(e->obj))
+		OnCollisionWithPSwitch(e);
 }
 
 void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e) {
@@ -245,10 +251,22 @@ void CMario::OnCollisionWithParaRedGoomba(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
+	
 	if (e->obj->GetState() == STATE_ITEM_VISIBLE) {
 		e->obj->Delete();
 		coin++;
+
 	}
+}
+void CMario::OnCollisionWithPSwitch(LPCOLLISIONEVENT e)
+{
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+	if (e->obj->GetState() == STATE_P_SWITCH_VISIBLE) {
+		e->obj->Delete();
+	//	brick->Delete();
+	}
+	
+	
 }
 void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 {

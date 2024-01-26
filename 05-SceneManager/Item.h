@@ -10,6 +10,7 @@ enum ItemType {
 	Undefined = -1,
 	SuperItem,	// Red Mushroom, Green Mushroom, Leaf
 	Coin,		
+	PSwitch
 };
 
 // Interface for items

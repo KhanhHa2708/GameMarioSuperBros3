@@ -156,6 +156,7 @@
     <ClCompile Include="GreenKoopa.cpp" />
     <ClCompile Include="ParaGoomba.cpp" />
     <ClCompile Include="PiranhaPlant.cpp" />
+    <ClCompile Include="PSwitch.cpp" />
     <ClCompile Include="RedKoopa.cpp" />
     <ClCompile Include="SuperItem.cpp" />
     <ClCompile Include="main.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="ParaGoomba.h" />
     <ClInclude Include="PiranhaPlant.h" />
+    <ClInclude Include="PSwitch.h" />
     <ClInclude Include="RedKoopa.h" />
     <ClInclude Include="SuperItem.h" />
     <ClInclude Include="KeyEventHandler.h" />

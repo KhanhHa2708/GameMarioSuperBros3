@@ -15,6 +15,7 @@
 #include "GreenKoopa.h"
 #include "RedKoopa.h"
 #include "PiranhaPlant.h"
+#include "PSwitch.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
@@ -174,6 +175,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			obj = new CCoin(x, y, initState);
 			break;
 		}
+		case ItemType::PSwitch:
+			obj = new CPSwitch(x, y);
+			break;
 		default:
 			break;
 		}

@@ -9,10 +9,12 @@
 #define BRICK_BBOX_WIDTH 16
 #define BRICK_BBOX_HEIGHT 16
 
+#define STATE_UPDATE 11
+
 class CBrick : public CGameObject {
 public:
 	CBrick(float x, float y) : CGameObject(x, y) {}
 	void Render();
-	void Update(DWORD dt) {}
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 };
