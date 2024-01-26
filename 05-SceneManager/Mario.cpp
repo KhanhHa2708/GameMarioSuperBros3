@@ -182,7 +182,8 @@ void CMario::OnCollisionWithRedKoopa(LPCOLLISIONEVENT e)
 		}
 		if (redKoopa->GetState() != RED_KOOPA_STATE_DIE)
 		{
-			if (redKoopa->GetLevel() == LEVEL_RED_KOOPA)	redKoopa->SetState(RED_KOOPA_STATE_DIE);
+			if (redKoopa->GetLevel() == LEVEL_RED_KOOPA)
+				redKoopa->SetState(RED_KOOPA_STATE_DIE);
 			else redKoopa->SetLevel(LEVEL_RED_KOOPA);
 
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
@@ -278,12 +279,12 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 		e->obj->Delete();
 	}
 }
-
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
 }
+
 
 //
 // Get animation ID for small Mario

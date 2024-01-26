@@ -29,8 +29,7 @@ void PlantBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		dynamic_cast<CMario*>(player)->SetLevel(1);
 		is_hit_mario = true;
-	}*/dynamic_cast<CMario*>(player)->SetLevel(1);
-	is_hit_mario = true;
+	}*/
 }
 
 void PlantBullet::Render()
@@ -39,9 +38,9 @@ void PlantBullet::Render()
 
 
 	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(704)->Render(x, y);
+	animations->Get(ID_ANI_BULLET)->Render(x, y);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 
 
 }

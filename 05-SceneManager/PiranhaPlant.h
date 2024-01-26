@@ -1,31 +1,4 @@
-//#pragma once
-//#pragma once
-//#include "GameObject.h"
-//
-//#define PIRANHA_BOX_WIDTH  18
-//#define PIRANHA_BOX_HEIGHT 28
-//
-//#define PIRANHA_DEFAULT_ZONE_UP 5
-//#define  PIRANHA_SPEED 0.009f
-//
-//#define	PIRANHA_PLANT_DEFLECT_GRAVITY 0.15f
-//#define  PIRANHA_STATE_HIDE 0
-//#define  PIRANHA_STATE_MOVING 1
-//
-//#define	ID_ANI_PIRANHA_PLANT 75000
-//
-//class CPiranhaPlant : public CGameObject {
-//	
-//public:
-//	CPiranhaPlant(float x, float y, int level = 0);
-//	void Render();
-//	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-//	void SetState(int state);
-//	void GetBoundingBox(float& l, float& t, float& r, float& b);
-//	int IsBlocking() { return 0; }
-//	int IsColliable() { return 1; }
-//
-//};
+
 
 #pragma once
 #include "GameObject.h"

@@ -16,6 +16,7 @@
 #include "RedKoopa.h"
 #include "PiranhaPlant.h"
 #include "PSwitch.h"
+#include "VenusRedPiranha.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
@@ -196,6 +197,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	
 		obj = new PiranhaPlant(x, y);
 		break;
+	}
+	case OBJECT_TYPE_VENUS_PIRANHA_PLANT: {
+		int type = (int)atof(tokens[3].c_str());
+		obj = new VenusFireTrap(x, y, player, type); break;
 	}
 	case OBJECT_TYPE_PLATFORM:
 	{

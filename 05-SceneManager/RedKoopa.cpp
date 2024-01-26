@@ -72,7 +72,8 @@ void CRedKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if ((state == RED_KOOPA_STATE_DIE) && (GetTickCount64() - die_start > RED_KOOPA_DIE_TIMEOUT))
 	{
-		isDeleted = true;
+		isDeleted = false;
+		SetState(RED_KOOPA_STATE_SHELL);
 		return;
 	}
 
@@ -104,7 +105,10 @@ void CRedKoopa::Render()
 	{
 		aniId = ID_ANI_RED_KOOPA_DIE;
 	}
-
+	else if (state == RED_KOOPA_STATE_SHELL)
+	{
+		aniId = ID_ANI_RED_KOOPA_DIE;
+	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	//RenderBoundingBox();
 }
@@ -124,6 +128,15 @@ void CRedKoopa::SetState(int state)
 		break;
 	case RED_KOOPA_STATE_WALKING:
 		vx = nx * RED_KOOPA_WALKING_SPEED;
+		break;
+	case RED_KOOPA_STATE_SHELL:
+		vx = nx * RED_KOOPA_WALKING_SPEED;
+		break;
+	case RED_KOOPA_STATE_SHELL_LEFT:
+		vx = -RED_KOOPA_WALKING_SPEED;
+		break;
+	case RED_KOOPA_STATE_SHELL_RIGHT:
+		vx = RED_KOOPA_WALKING_SPEED;
 		break;
 	}
 }
