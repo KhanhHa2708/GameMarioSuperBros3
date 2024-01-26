@@ -9,7 +9,7 @@
 #include "Portal.h"
 #include "Coin.h"
 #include "Platform.h"
-
+#include "BigBrick.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -119,7 +119,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
-
+	case OBJECT_TYPE_BIGBRICK: obj = new CBigBrick(x, y); break;
 	case OBJECT_TYPE_PLATFORM:
 	{
 
