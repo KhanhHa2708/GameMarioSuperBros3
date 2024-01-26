@@ -1,9 +1,9 @@
-#include "Goomba.h"
+#include "GreenKoopa.h"
 #include "ColorBlock.h"
 #include "debug.h"
 #include "PlayScene.h"
 
-CGoomba::CGoomba(float x, float y, int l) :CGameObject(x, y)
+CGreenKoopa::CGreenKoopa(float x, float y, int l) :CGameObject(x, y)
 {
 	level = l;
 	step = 0;
@@ -15,7 +15,7 @@ CGoomba::CGoomba(float x, float y, int l) :CGameObject(x, y)
 }
 
 
-void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void CGreenKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (level == LEVEL_PARA_GOOMBA) {
 		left = x - PARA_GOOMBA_BBOX_WIDTH / 2;
@@ -39,13 +39,13 @@ void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& botto
 	}
 }
 
-void CGoomba::OnNoCollision(DWORD dt)
+void CGreenKoopa::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
 	y += vy * dt;
 };
 
-void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
+void CGreenKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CGoomba*>(e->obj)) return;
@@ -64,12 +64,12 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 }
 
-void CGoomba::SetLevel(int l)
+void CGreenKoopa::SetLevel(int l)
 {
 	level = l;
 }
 
-void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CGreenKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
@@ -87,7 +87,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 
 
-void CGoomba::Render()
+void CGreenKoopa::Render()
 {
 	int aniId = -1;
 	if (level == LEVEL_PARA_GOOMBA) {
@@ -105,7 +105,7 @@ void CGoomba::Render()
 	//RenderBoundingBox();
 }
 
-void CGoomba::SetState(int state)
+void CGreenKoopa::SetState(int state)
 {
 	CGameObject::SetState(state);
 	switch (state)
@@ -127,7 +127,7 @@ void CGoomba::SetState(int state)
 	}
 }
 
-void CGoomba::CalcGoombaMove() {
+void CGreenKoopa::CalcGoombaMove() {
 	// 0: walking	1: jumping	2: flying
 	//float a, b;
 	//dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition(a, b);

@@ -10,7 +10,7 @@
 #include "Coin.h"
 #include "Platform.h"
 #include "ColorBlock.h"
-
+#include "ParaGoomba.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -18,10 +18,10 @@ using namespace std;
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
+	map = NULL;
 	player = NULL;
 	key_handler = new CSampleKeyHandler(this);
 }
-
 
 
 #define SCENE_SECTION_UNKNOWN -1
@@ -119,6 +119,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float y = (float)atof(tokens[2].c_str());
 
 	CGameObject* obj = NULL;
+	
 
 	switch (object_type)
 	{
@@ -138,8 +139,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CGoomba(x, y, level); 
 		break; 
 	}
-
-
+	case OBJECT_TYPE_PARA_RED_GOOMBA: {
+		int level = (int)atoi(tokens[3].c_str());
+		obj = new CParaGoomba(x, y, level);
+		break;
+	}
+	
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
 	case OBJECT_TYPE_QUESTION_BLOCK: {
 		obj = new CQuestionBlock(x, y);
@@ -171,7 +176,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			cell_width, cell_height, length);
 		break;
 	}
-
 
 	case OBJECT_TYPE_PLATFORM:
 	{
@@ -209,8 +213,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	// General object setup
 	obj->SetPosition(x, y);
-
-
 	objects.push_back(obj);
 }
 
@@ -322,11 +324,10 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetBackBufferWidth() / 2;
 	cy -= game->GetBackBufferHeight() / 2;
 
-		if (cx > map->getMapWidth() - game->GetBackBufferWidth()) cx = float(map->getMapWidth() - game->GetBackBufferWidth());
+	if (cx > map->getMapWidth() - game->GetBackBufferWidth()) cx = float(map->getMapWidth() - game->GetBackBufferWidth());
 	if (cy > map->getMapHeight() - game->GetBackBufferHeight() - 8) cy = float(map->getMapHeight() - game->GetBackBufferHeight() - 8);
 	if (cx < 0) cx = 0;
-
-		if (cy < 0) cy = 0;
+	if (cy < 0) cy = 0;
 	CGame::GetInstance()->SetCamPos(cx, cy);
 
 	PurgeDeletedObjects();
@@ -334,7 +335,7 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	map->Render();	
+	map->Render();
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 }
@@ -354,7 +355,9 @@ void CPlayScene::Clear()
 
 /*
 	Unload scene
+
 	TODO: Beside objects, we need to clean up sprites, animations and textures as well
+
 */
 void CPlayScene::Unload()
 {
