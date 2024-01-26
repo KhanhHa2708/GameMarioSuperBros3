@@ -9,9 +9,14 @@
 #include "Portal.h"
 
 #include "Collision.h"
+#include "ColorBlock.h"
+#include "QuestionBlock.h"
+
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	isOnPlatform = false;
+
 	vy += ay * dt;
 	vx += ax * dt;
 
@@ -24,7 +29,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = 0;
 	}
 
-	isOnPlatform = false;
+	
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -43,18 +48,43 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		if (e->ny < 0) isOnPlatform = true;
 	}
 	else
-		if (e->nx != 0 && e->obj->IsBlocking())
+		else if (e->nx != 0 && e->obj->IsBlocking())
 		{
 			vx = 0;
 		}
 
 	if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
-	else if (dynamic_cast<CCoin*>(e->obj))
-		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
+	else if (dynamic_cast<CQuestionBlock*>(e->obj))
+		OnCollisionWithQuestionBlock(e);
+	else if (dynamic_cast<Item*>(e->obj))
+		OnCollisionWithItem(e);
+
+
 }
+
+void CMario::OnCollisionWithItem(LPCOLLISIONEVENT e) {
+	if (dynamic_cast<CCoin*>(e->obj))
+		OnCollisionWithCoin(e);
+	else if (dynamic_cast<CSuperItem*>(e->obj))
+		OnCollisionWithMushroom(e);
+}
+
+void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e) {
+	CQuestionBlock* qb = dynamic_cast<CQuestionBlock*>(e->obj);
+	if (e->ny > 0)
+		if (e->obj->GetState() != STATE_BRICK_EMPTY) {
+			qb->SpawnItem(nx, level);
+			if (qb->getItem()->GetItemType() == ItemType::Coin) {
+				coin++;
+			}
+		}
+}
+
+#pragma region Enemies
+
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
@@ -63,9 +93,13 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	// jump on top >> kill Goomba and deflect a bit 
 	if (e->ny < 0)
 	{
+				if (goomba->GetLevel() == LEVEL_PARA_GOOMBA) {
+		}
 		if (goomba->GetState() != GOOMBA_STATE_DIE)
 		{
-			goomba->SetState(GOOMBA_STATE_DIE);
+			if (goomba->GetLevel() == LEVEL_GOOMBA)	goomba->SetState(GOOMBA_STATE_DIE);
+			else goomba->SetLevel(LEVEL_GOOMBA);
+
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
 	}
@@ -89,11 +123,22 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		}
 	}
 }
-
+#pragma endregion
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
-	e->obj->Delete();
-	coin++;
+	if (e->obj->GetState() == STATE_ITEM_VISIBLE) {
+		e->obj->Delete();
+		coin++;
+	}
+}
+void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
+{
+	CSuperItem* superItem = dynamic_cast<CSuperItem*>(e->obj);
+	if (superItem->IsAlive) {
+		e->obj->SetState(STATE_MUSHROOM_DIE);
+		SetLevel(MARIO_LEVEL_BIG);
+		e->obj->Delete();
+	}
 }
 
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
@@ -239,7 +284,7 @@ void CMario::Render()
 
 	animations->Get(aniId)->Render(x, y);
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 
 	DebugOutTitle(L"Coins: %d", coin);
 }

@@ -9,7 +9,8 @@
 #include "Portal.h"
 #include "Coin.h"
 #include "Platform.h"
-#include "BigBrick.h"
+#include "ColorBlock.h"
+
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -22,9 +23,11 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 }
 
 
+
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_ASSETS	1
 #define SCENE_SECTION_OBJECTS	2
+#define SCENE_SECTION_MAP	3
 
 #define ASSETS_SECTION_UNKNOWN -1
 #define ASSETS_SECTION_SPRITES 1
@@ -87,6 +90,20 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	CAnimations::GetInstance()->Add(ani_id, ani);
 }
 
+void CPlayScene::_ParseSection_MAP(string line) {
+	vector<string> tokens = split(line);
+	if (tokens.size() < 1) return;
+	wstring path = ToWSTR(tokens[0]);
+
+	LoadMap(path.c_str());
+}
+
+void CPlayScene::LoadMap(LPCWSTR mapFile) {
+	DebugOut(L"[INFO] Start loading map from : %s \n", mapFile);
+	map = new CMap(mapFile);
+	DebugOut(L"[INFO] Done loading map from %s\n", mapFile);
+}
+
 /*
 	Parse a line in section [OBJECTS]
 */
@@ -116,10 +133,46 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y); break;
+	case OBJECT_TYPE_GOOMBA: { 
+		int level = (int)atoi(tokens[3].c_str());
+		obj = new CGoomba(x, y, level); 
+		break; 
+	}
+
+
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
-	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
-	case OBJECT_TYPE_BIGBRICK: obj = new CBigBrick(x, y); break;
+	case OBJECT_TYPE_QUESTION_BLOCK: {
+		obj = new CQuestionBlock(x, y);
+		questionBlocks.push_back(dynamic_cast<CQuestionBlock*>(obj));
+		break; }
+	case OBJECT_TYPE_ITEM: {
+		int type = (int)atoi(tokens[3].c_str());
+		switch (type)
+		{
+		case ItemType::SuperItem:
+			obj = new CSuperItem(x, y);
+			break;
+		case ItemType::Coin: {
+			int initState = (int)atoi(tokens[4].c_str());
+			obj = new CCoin(x, y, initState);
+			break;
+		}
+		default:
+			break;
+		}
+		items.push_back(dynamic_cast<Item*>(obj));
+		break;
+	}
+	case OBJECT_TYPE_COLOR_BLOCK: {
+		float cell_width = (float)atof(tokens[3].c_str());
+		float cell_height = (float)atof(tokens[4].c_str());
+		int length = atoi(tokens[5].c_str());
+		obj = new CColorBlock(x, y, cell_width * length, cell_height,
+			cell_width, cell_height, length);
+		break;
+	}
+
+
 	case OBJECT_TYPE_PLATFORM:
 	{
 
@@ -214,6 +267,9 @@ void CPlayScene::Load()
 		if (line[0] == '#') continue;	// skip comment lines	
 		if (line == "[ASSETS]") { section = SCENE_SECTION_ASSETS; continue; };
 		if (line == "[OBJECTS]") { section = SCENE_SECTION_OBJECTS; continue; };
+		if (line == "[MAP]") {
+			section = SCENE_SECTION_MAP; continue;
+		};
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -223,10 +279,18 @@ void CPlayScene::Load()
 		{
 		case SCENE_SECTION_ASSETS: _ParseSection_ASSETS(line); break;
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
 		}
 	}
 
 	f.close();
+
+	// Assign item to block, then release the vector objects.
+	for (size_t i = 0; i < questionBlocks.size(); i++) {
+		questionBlocks[i]->setItem(items[i]);
+	}
+	questionBlocks = vector<CQuestionBlock*>();
+	items = vector<Item*>();
 
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
@@ -258,15 +322,19 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetBackBufferWidth() / 2;
 	cy -= game->GetBackBufferHeight() / 2;
 
+		if (cx > map->getMapWidth() - game->GetBackBufferWidth()) cx = float(map->getMapWidth() - game->GetBackBufferWidth());
+	if (cy > map->getMapHeight() - game->GetBackBufferHeight() - 8) cy = float(map->getMapHeight() - game->GetBackBufferHeight() - 8);
 	if (cx < 0) cx = 0;
 
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+		if (cy < 0) cy = 0;
+	CGame::GetInstance()->SetCamPos(cx, cy);
 
 	PurgeDeletedObjects();
 }
 
 void CPlayScene::Render()
 {
+	map->Render();	
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 }

@@ -6,14 +6,20 @@
 #include "Brick.h"
 #include "Mario.h"
 #include "Goomba.h"
-//#include "Koopas.h"
+#include "Map.h"
+#include "QuestionBlock.h"
+#include "Item.h"
 
 
 class CPlayScene : public CScene
 {
 protected:
-	// A play scene has to have player, right? 
-	LPGAMEOBJECT player;
+	// A play scene has to have player, right? 					
+	LPGAMEOBJECT player;		
+	CMap* map;
+
+	vector<CQuestionBlock*> questionBlocks;
+	vector<Item*> items;
 
 	vector<LPGAMEOBJECT> objects;
 
@@ -22,8 +28,10 @@ protected:
 
 	void _ParseSection_ASSETS(string line);
 	void _ParseSection_OBJECTS(string line);
+	void _ParseSection_MAP(string line);
 
 	void LoadAssets(LPCWSTR assetFile);
+	void LoadMap(LPCWSTR assetFile);
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);

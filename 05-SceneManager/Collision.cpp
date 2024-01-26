@@ -195,15 +195,26 @@ void CCollision::Filter(LPGAMEOBJECT objSrc,
 		if (c->obj->IsDeleted()) continue;
 
 		// ignore collision event with object having IsBlocking = 0 (like coin, mushroom, etc)
-		if (filterBlock == 1 && !c->obj->IsBlocking())
+		if (filterBlock == 1)
 		{
-			continue;
+			int l, t, r, b;
+			if (!c->obj->IsBlocking()) continue;
+			c->obj->DirectBlocking(l, t, r, b);
+
+			// If only block with specific direction
+			if (c->nx < 0 && !l) continue;
+			if (c->nx > 0 && !r) continue;
+			// Mario jump top down - ny = -1
+			// CColorBlock t = 1, so false --> then not block
+			if (c->ny < 0 && !t) continue;
+			if (c->ny > 0 && !b) continue;
 		}
 
 		if (c->t < min_tx && c->nx != 0 && filterX == 1) {
 			min_tx = c->t; min_ix = i;
 		}
-
+		// So it will go to this -> colY.... wait, so the min_iy => the index of koopas, which 
+		// is under the color block in my case => 
 		if (c->t < min_ty && c->ny != 0 && filterY == 1) {
 			min_ty = c->t; min_iy = i;
 		}
@@ -315,13 +326,13 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 			}
 		}
 		else
-			if (colX != NULL)
-			{
-				x += colX->t * dx + colX->nx * BLOCK_PUSH_FACTOR;
-				y += dy;
-				objSrc->OnCollisionWith(colX);
-			}
-			else
+if (colX != NULL) 
+				{
+					x += colX->t * dx + colX->nx * BLOCK_PUSH_FACTOR;
+					y += dy;
+					objSrc->OnCollisionWith(colX);
+				}
+							else
 				if (colY != NULL)
 				{
 					x += dx;
@@ -340,11 +351,23 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 	//
 	// Scan all non-blocking collisions for further collision logic
 	//
+	LPGAMEOBJECT blockingObj;
+	float x2 = 999999, y2 = 999999;
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
 		LPCOLLISIONEVENT e = coEvents[i];
 		if (e->isDeleted) continue;
-		if (e->obj->IsBlocking()) continue;  // blocking collisions were handled already, skip them
+				if (e->obj->IsBlocking())
+		{
+			blockingObj = e->obj;
+			blockingObj->GetPosition(x2, y2);
+
+			continue;
+		} // blocking collisions were handled already, skip them
+		float x, y;
+		e->obj->GetPosition(x, y);
+		// This logic I'm not sure => to check if obj is coverred by the Blocking object
+		if (x > x2 && y > y2) continue;
 
 		objSrc->OnCollisionWith(e);
 	}
